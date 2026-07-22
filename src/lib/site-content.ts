@@ -70,11 +70,11 @@ export const DEFAULT_CONTENT: SiteContent = {
   arveaProducts: [
     {
       id: "arvea-1",
-      title: "Gel Nettoyant Aloe Vera",
+      title: "Gel Nettoyant Purifiant Aloe Vera",
       category: "Soins Visage",
       price: "12.90",
-      description: "Nettoie en profondeur tout en respectant le pH naturel de la peau. Enrichi à l'aloe vera pour hydrater et apaiser les peaux sensibles.",
-      image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=600&auto=format&fit=crop"
+      description: "Nettoie en profondeur tout en respectant le pH naturel de la peau. Enrichi à l'aloe vera bio pour hydrater et apaiser les peaux sensibles.",
+      image: "/images/arvea_skincare.jpg"
     },
     {
       id: "arvea-2",
@@ -82,7 +82,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       category: "Soins Visage",
       price: "14.50",
       description: "Élimine les cellules mortes et affine le grain de peau grâce à des micro-particules douces et naturelles de noyaux d'abricot.",
-      image: "https://images.unsplash.com/photo-1608248597481-496100c80836?q=80&w=600&auto=format&fit=crop"
+      image: "/images/arvea_hero.jpg"
     },
     {
       id: "arvea-3",
@@ -90,7 +90,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       category: "Soins Corps",
       price: "18.00",
       description: "Une formule ultra-riche à base de beurre de karité et d'aloe vera qui nourrit intensément les peaux sèches et abîmées.",
-      image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=600&auto=format&fit=crop"
+      image: "/images/arvea_skincare.jpg"
     },
     {
       id: "arvea-4",
@@ -98,7 +98,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       category: "Cheveux",
       price: "11.20",
       description: "Répare et fortifie les cheveux secs ou abîmés de la racine aux pointes, leur redonnant brillance et douceur.",
-      image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?q=80&w=600&auto=format&fit=crop"
+      image: "/images/arvea_hero.jpg"
     },
     {
       id: "arvea-5",
@@ -106,7 +106,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       category: "Parfums",
       price: "24.90",
       description: "Une fragrance florale et fruitée irrésistible, mêlant des notes fraîches de jasmin et de vanille pour une élégance quotidienne.",
-      image: "https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=600&auto=format&fit=crop"
+      image: "/images/arvea_skincare.jpg"
     }
   ],
 
@@ -124,7 +124,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       category: "Cafés & Boissons",
       price: "19.50",
       description: "Mélange raffiné de grains de café de qualité supérieure, de crème végétale et d'extrait de pur Ganoderma. Un délice fortifiant et digeste.",
-      image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=600&auto=format&fit=crop"
+      image: "/images/dxn_coffee.jpg"
     },
     {
       id: "dxn-2",
@@ -132,7 +132,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       category: "Cafés & Boissons",
       price: "18.90",
       description: "Café noir instantané de qualité gourmande infusé à l'extrait de Ganoderma. Parfait pour les amateurs de café fort, sain et sans sucre.",
-      image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600&auto=format&fit=crop"
+      image: "/images/dxn_hero.jpg"
     },
     {
       id: "dxn-3",
@@ -140,7 +140,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       category: "Cafés & Boissons",
       price: "22.00",
       description: "Boisson au chocolat riche en cacao de qualité supérieure avec des extraits de Ganoderma. Idéale pour toute la famille, apporte énergie et concentration.",
-      image: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=600&auto=format&fit=crop"
+      image: "/images/dxn_coffee.jpg"
     },
     {
       id: "dxn-4",
@@ -148,7 +148,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       category: "Compléments",
       price: "34.00",
       description: "Super-aliment 100% naturel riche en protéines, vitamines et antioxydants. Idéal pour combler les carences, détoxifier et booster le tonus musculaire.",
-      image: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?q=80&w=600&auto=format&fit=crop"
+      image: "/images/dxn_hero.jpg"
     },
     {
       id: "dxn-5",
@@ -156,7 +156,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       category: "Soins Personnels",
       price: "8.50",
       description: "Enrichi en extrait de Ganoderma et huile de palme, nettoie la peau en douceur tout en préservant son hydratation et son élasticité naturelle.",
-      image: "https://images.unsplash.com/photo-1607006342411-b01354179923?q=80&w=600&auto=format&fit=crop"
+      image: "/images/dxn_coffee.jpg"
     }
   ],
 
@@ -201,7 +201,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   ]
 };
 
-const STORAGE_KEY = "site-content-v2";
+const STORAGE_KEY = "site-content-v3";
 
 export function loadContent(): SiteContent {
   if (typeof window === "undefined") return DEFAULT_CONTENT;
@@ -213,7 +213,6 @@ export function loadContent(): SiteContent {
     return {
       ...DEFAULT_CONTENT,
       ...parsed,
-      // Merge sub-arrays to make sure schema upgrades don't cause undefined arrays
       arveaProducts: parsed.arveaProducts || DEFAULT_CONTENT.arveaProducts,
       dxnProducts: parsed.dxnProducts || DEFAULT_CONTENT.dxnProducts,
       testimonials: parsed.testimonials || DEFAULT_CONTENT.testimonials

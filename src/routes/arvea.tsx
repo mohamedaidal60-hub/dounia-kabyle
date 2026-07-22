@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import { useSiteContent, buildWhatsappLink, type Product } from "@/lib/site-content";
+import { AnimatedCanvas } from "@/components/AnimatedCanvas";
+import { MarqueeTicker } from "@/components/MarqueeTicker";
 import { ShoppingBag, ArrowLeft, Leaf, Heart, Plus, Minus, Trash2, CheckCircle2, Copy, Sparkles, ShoppingCart, Send, UserCheck } from "lucide-react";
 
 export const Route = createFileRoute("/arvea")({
@@ -37,7 +39,6 @@ function ArveaPage() {
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Auto-play video
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.play().catch((err) => console.log("Video auto-play delayed", err));
@@ -92,7 +93,6 @@ function ArveaPage() {
     return cart.reduce((count, item) => count + item.quantity, 0);
   };
 
-  // WhatsApp order text builder
   const handleCheckout = () => {
     if (cart.length === 0) return;
     let text = `Bonjour Dounia, je souhaite commander les produits ARVEA suivants depuis votre site :\n\n`;
@@ -103,7 +103,6 @@ function ArveaPage() {
     window.open(buildWhatsappLink(content.whatsapp, text), "_blank", "noopener,noreferrer");
   };
 
-  // WhatsApp registration text builder
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
     let text = `Bonjour Dounia, je souhaite m'inscrire en tant que partenaire/conseillère ARVEA sous votre parrainage.\n\n`;
@@ -124,13 +123,13 @@ function ArveaPage() {
   const arveaTestimonials = content.testimonials.filter(t => t.type === "arvea");
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-emerald-800 selection:text-cream">
+    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-emerald-800 selection:text-cream relative">
       
       {/* NAVBAR */}
       <header className="fixed top-0 inset-x-0 z-50 transition-all bg-emerald-950/80 backdrop-blur-md border-b border-white/10 text-cream">
         <div className="container-editorial flex items-center justify-between h-20">
           <Link to="/" className="flex items-center gap-2 hover:opacity-85 text-cream transition">
-            <ArrowLeft className="h-5 w-5" />
+            <ArrowLeft className="h-5 w-5 text-gold" />
             <span className="text-xs uppercase font-bold tracking-widest hidden sm:inline">Accueil</span>
           </Link>
           <div className="font-serif text-xl md:text-2xl text-cream flex items-center gap-2">
@@ -152,8 +151,8 @@ function ArveaPage() {
         </div>
       </header>
 
-      {/* HERO SECTION */}
-      <section className="relative min-h-[60vh] flex items-center pt-20 overflow-hidden">
+      {/* HERO SECTION WITH VIDEO + CANVAS OVERLAY */}
+      <section className="relative min-h-[65vh] flex items-center pt-20 overflow-hidden">
         <div className="video-bg-container">
           <video
             ref={videoRef}
@@ -167,14 +166,17 @@ function ArveaPage() {
           <div className="video-overlay-arvea" />
         </div>
 
+        {/* 60fps Emerald Particle Canvas */}
+        <AnimatedCanvas theme="arvea" />
+
         <div className="container-editorial relative z-10 py-16 text-center text-cream">
-          <p className="eyebrow text-emerald-300 flex items-center justify-center gap-2">
+          <p className="eyebrow text-emerald-300 flex items-center justify-center gap-2 animate-float">
             <Leaf className="h-4 w-4 text-emerald-400" /> Naturel & Authentique
           </p>
           <h1 className="mt-6 font-serif text-5xl md:text-7xl font-bold tracking-tight">
             {content.arveaHeroTitle}
           </h1>
-          <p className="mt-6 text-base md:text-lg max-w-xl mx-auto text-cream/80 leading-relaxed">
+          <p className="mt-6 text-base md:text-lg max-w-xl mx-auto text-cream/85 leading-relaxed font-light">
             {content.arveaHeroSubtitle}
           </p>
           <div className="mt-10 flex justify-center gap-4">
@@ -188,7 +190,15 @@ function ArveaPage() {
         </div>
       </section>
 
-      {/* BRAND PRESENTATION */}
+      {/* MARQUEE TICKER */}
+      <MarqueeTicker theme="arvea" items={[
+        "COSMÉTIQUES BIO ALOE VERA",
+        "HUILE D'ARGAN ET SOINS NATURELS",
+        "LIVRAISON EN FRANCE & MAGHREB",
+        "DEVENEZ CONSEILLÈRE ET GAGNEZ 30% DE REMISE",
+      ]} />
+
+      {/* BRAND PRESENTATION WITH REAL IMAGE */}
       <section className="py-24 bg-card border-b border-border/50">
         <div className="container-editorial grid gap-12 md:grid-cols-2 items-center">
           <div>
@@ -212,12 +222,14 @@ function ArveaPage() {
             </ul>
           </div>
           
-          <div className="rounded-3xl bg-emerald-950 p-8 text-cream shadow-md flex flex-col justify-between h-[320px] relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-gold/25 via-transparent to-transparent" />
-            <div>
+          <div className="rounded-3xl bg-emerald-950 p-8 text-cream shadow-xl flex flex-col justify-between h-[360px] relative overflow-hidden group">
+            <img src="/images/arvea_hero.jpg" alt="ARVEA Nature Spa" className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-105 transition duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/70 to-transparent" />
+            
+            <div className="relative z-10">
               <Sparkles className="h-8 w-8 text-gold" />
-              <h3 className="text-2xl font-serif mt-6">Accès Direct Boutique Officielle</h3>
-              <p className="mt-2 text-xs text-cream/70 leading-relaxed">
+              <h3 className="text-2xl font-serif mt-4">Accès Direct Boutique Officielle</h3>
+              <p className="mt-2 text-xs text-cream/80 leading-relaxed">
                 Achetez en ligne en toute sécurité via le portail d'affiliation officiel de Dounia. Les remises et promotions du réseau s'appliqueront directement.
               </p>
             </div>
@@ -232,7 +244,7 @@ function ArveaPage() {
               </a>
               <button
                 onClick={handleCopyCode}
-                className="inline-flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 rounded-full px-5 py-3 text-xs tracking-wider uppercase font-semibold text-cream transition"
+                className="inline-flex items-center gap-2 border border-white/20 bg-white/10 hover:bg-white/20 rounded-full px-5 py-3 text-xs tracking-wider uppercase font-semibold text-cream transition"
               >
                 <Copy className="h-4 w-4" />
                 {copied ? "Copié !" : `Code : ${content.arveaAffiliateCode}`}
@@ -273,21 +285,15 @@ function ArveaPage() {
           {/* Product Grid */}
           <div className="mt-12 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {filteredProducts.map((p) => (
-              <div key={p.id} className="rounded-2xl bg-card border border-border/80 overflow-hidden shadow-sm flex flex-col justify-between group hover:shadow-md transition">
+              <div key={p.id} className="rounded-3xl bg-card border border-border/80 overflow-hidden shadow-sm flex flex-col justify-between group hover:shadow-xl hover:-translate-y-1 transition duration-300">
                 <div>
                   <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
-                    {p.image ? (
-                      <img
-                        src={p.image}
-                        alt={p.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-full h-full grid place-items-center text-muted-foreground/45">
-                        <Leaf className="h-12 w-12" />
-                      </div>
-                    )}
+                    <img
+                      src={p.image || "/images/arvea_skincare.jpg"}
+                      alt={p.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                      loading="lazy"
+                    />
                     <span className="absolute top-3 left-3 bg-forest/90 backdrop-blur-sm text-cream px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest border border-white/10">
                       {p.category}
                     </span>
@@ -301,7 +307,7 @@ function ArveaPage() {
                   <div className="text-xl font-serif text-forest font-bold">{p.price} €</div>
                   <button
                     onClick={() => addToCart(p)}
-                    className="inline-flex items-center gap-1.5 bg-forest text-cream text-[10px] uppercase font-bold tracking-widest px-4 py-2.5 rounded-full hover:bg-forest/95 hover:scale-[1.03] transition"
+                    className="inline-flex items-center gap-1.5 bg-forest text-cream text-[10px] uppercase font-bold tracking-widest px-4 py-2.5 rounded-full hover:bg-forest/95 hover:scale-[1.03] transition shadow-sm"
                   >
                     <Plus className="h-3.5 w-3.5" /> Ajouter
                   </button>
@@ -313,12 +319,12 @@ function ArveaPage() {
       </section>
 
       {/* MLM OPPORTUNITY */}
-      <section id="opportunity" className="py-24 bg-forest text-cream">
+      <section id="opportunity" className="py-24 bg-forest text-cream relative">
         <div className="container-editorial grid gap-16 md:grid-cols-2 items-center">
           <div>
             <p className="eyebrow text-gold"><span className="hairline mr-3" /> Rejoindre l'équipe</p>
             <h2 className="mt-4 font-serif text-4xl md:text-5xl">Gagnez un revenu complémentaire avec ARVEA</h2>
-            <p className="mt-6 text-cream/70 text-sm leading-relaxed">
+            <p className="mt-6 text-cream/80 text-sm leading-relaxed">
               Devenez membre indépendant du réseau ARVEA Nature. En rejoignant mon équipe, vous bénéficiez de :
             </p>
             <div className="mt-8 space-y-6">
@@ -332,7 +338,7 @@ function ArveaPage() {
                     {idx + 1}
                   </div>
                   <div>
-                    <h3 className="font-serif text-lg text-gold">{b.t}</h3>
+                    <h3 className="font-serif text-lg text-gold font-bold">{b.t}</h3>
                     <p className="text-xs text-cream/70 mt-1 leading-relaxed">{b.d}</p>
                   </div>
                 </div>
@@ -340,7 +346,7 @@ function ArveaPage() {
             </div>
           </div>
 
-          <div id="register-form" className="rounded-3xl bg-cream p-8 md:p-10 text-deep shadow-md">
+          <div id="register-form" className="rounded-3xl bg-cream p-8 md:p-10 text-deep shadow-2xl">
             <h3 className="font-serif text-3xl text-forest">Demande d'inscription</h3>
             <p className="mt-2 text-xs text-muted-foreground">Remplissez ce formulaire pour initier votre parrainage sous Dounia Kabyle.</p>
             
@@ -406,10 +412,10 @@ function ArveaPage() {
             
             <div className="mt-14 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
               {arveaTestimonials.map((t, idx) => (
-                <div key={idx} className="bg-background border border-border/80 p-8 rounded-2xl flex flex-col justify-between">
+                <div key={idx} className="bg-background border border-border/80 p-8 rounded-3xl flex flex-col justify-between shadow-sm hover:shadow-md transition">
                   <p className="text-sm italic text-muted-foreground leading-relaxed">"{t.text}"</p>
                   <div className="mt-6 pt-4 border-t border-border/50 flex items-center gap-2.5">
-                    <div className="h-8 w-8 rounded-full bg-forest/5 text-forest grid place-items-center text-xs font-bold font-serif">
+                    <div className="h-8 w-8 rounded-full bg-forest/10 text-forest grid place-items-center text-xs font-bold font-serif">
                       {t.name.charAt(0)}
                     </div>
                     <div>
@@ -423,22 +429,6 @@ function ArveaPage() {
           </div>
         </section>
       )}
-
-      {/* CONTACT */}
-      <section className="py-16 bg-deep text-cream text-center border-t border-white/5">
-        <div className="container-editorial">
-          <h2 className="font-serif text-3xl">Besoin d'un conseil personnalisé ?</h2>
-          <p className="mt-2 text-xs text-cream/70">Je suis disponible à tout moment pour analyser votre type de peau et vous proposer les produits idéaux.</p>
-          <a
-            href={buildWhatsappLink(content.whatsapp, "Bonjour Dounia, je souhaite obtenir un diagnostic beauté ou des conseils sur les produits ARVEA.")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-gold mt-6 inline-flex items-center gap-2"
-          >
-            <Send className="h-4 w-4" /> Discuter avec Dounia
-          </a>
-        </div>
-      </section>
 
       {/* CART SIDEBAR / DRAWER */}
       {isCartOpen && (
@@ -471,7 +461,7 @@ function ArveaPage() {
                   </div>
                 ) : (
                   cart.map((item) => (
-                    <div key={item.product.id} className="flex gap-4 border border-border/60 p-4 rounded-xl bg-background shadow-sm items-center justify-between">
+                    <div key={item.product.id} className="flex gap-4 border border-border/60 p-4 rounded-2xl bg-background shadow-sm items-center justify-between">
                       <div className="flex-1">
                         <h4 className="text-sm font-serif font-bold text-forest leading-snug">{item.product.title}</h4>
                         <div className="text-xs text-muted-foreground mt-0.5">{item.product.price} € / unité</div>
@@ -479,14 +469,14 @@ function ArveaPage() {
                         <div className="flex items-center gap-2 mt-3">
                           <button
                             onClick={() => updateQuantity(item.product.id, -1)}
-                            className="h-6 w-6 rounded-full border border-border grid place-items-center hover:bg-secondary text-xs"
+                            className="h-6 w-6 rounded-full border border-border grid place-items-center hover:bg-secondary text-xs font-bold"
                           >
                             <Minus className="h-3 w-3" />
                           </button>
                           <span className="text-xs font-bold w-4 text-center">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.product.id, 1)}
-                            className="h-6 w-6 rounded-full border border-border grid place-items-center hover:bg-secondary text-xs"
+                            className="h-6 w-6 rounded-full border border-border grid place-items-center hover:bg-secondary text-xs font-bold"
                           >
                             <Plus className="h-3 w-3" />
                           </button>
