@@ -1,0 +1,260 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-forest: var(--forest);
+  --color-cream: var(--cream);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 1rem;
+
+  /* Nature & Gold palette */
+  --cream: oklch(0.965 0.012 85);        /* #F7F3EB */
+  --forest: oklch(0.35 0.04 145);        /* #324A35 */
+  --gold: oklch(0.75 0.12 85);           /* #CCA655 */
+  --deep: oklch(0.20 0.02 140);          /* #1A2419 */
+
+  --background: var(--cream);
+  --foreground: var(--deep);
+
+  --card: oklch(0.985 0.005 85);
+  --card-foreground: var(--deep);
+  --popover: oklch(0.985 0.005 85);
+  --popover-foreground: var(--deep);
+
+  --primary: var(--forest);
+  --primary-foreground: var(--cream);
+
+  --secondary: oklch(0.92 0.015 90);
+  --secondary-foreground: var(--forest);
+
+  --muted: oklch(0.93 0.01 85);
+  --muted-foreground: oklch(0.45 0.02 140);
+
+  --accent: var(--gold);
+  --accent-foreground: var(--deep);
+
+  --gold-foreground: var(--deep);
+
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.88 0.01 85);
+  --input: oklch(0.90 0.01 85);
+  --ring: var(--gold);
+
+  --shadow-elegant: 0 30px 70px -15px oklch(0.20 0.02 140 / 0.18);
+  --shadow-soft: 0 10px 30px -10px oklch(0.20 0.02 140 / 0.1);
+  --gradient-hero: linear-gradient(135deg, oklch(0.35 0.04 145 / 0.75) 0%, oklch(0.20 0.02 140 / 0.9) 100%);
+  --gradient-gold: linear-gradient(135deg, oklch(0.80 0.12 85) 0%, oklch(0.70 0.1 80) 100%);
+}
+
+.dark {
+  --background: oklch(0.15 0.015 140);
+  --foreground: var(--cream);
+  --card: oklch(0.18 0.02 140);
+  --card-foreground: var(--cream);
+  --popover: oklch(0.18 0.02 140);
+  --popover-foreground: var(--cream);
+  --primary: var(--gold);
+  --primary-foreground: var(--deep);
+  --secondary: oklch(0.22 0.02 140);
+  --secondary-foreground: var(--cream);
+  --muted: oklch(0.20 0.02 140);
+  --muted-foreground: oklch(0.75 0.02 90);
+  --accent: var(--gold);
+  --accent-foreground: var(--deep);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: var(--gold);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv02";
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, .font-serif {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Background video system */
+.video-bg-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.video-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  filter: brightness(0.95);
+  animation: slowZoom 60s infinite alternate ease-in-out;
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1.02); }
+  100% { transform: scale(1.08); }
+}
+
+.video-overlay-main {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, oklch(0.20 0.02 140 / 0.85) 0%, oklch(0.12 0.02 140 / 0.95) 100%);
+  z-index: 1;
+}
+
+.video-overlay-arvea {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, oklch(0.35 0.04 145 / 0.80) 0%, oklch(0.15 0.02 140 / 0.95) 100%);
+  z-index: 1;
+}
+
+.video-overlay-dxn {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, oklch(0.18 0.02 140 / 0.80) 0%, oklch(0.08 0.01 140 / 0.98) 100%);
+  z-index: 1;
+}
+
+/* Glassmorphism styling */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.glass-panel-dark {
+  background: rgba(15, 23, 14, 0.45);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+/* Custom premium buttons */
+.btn-gold {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold tracking-wider uppercase text-[color:var(--deep)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(201,169,97,0.4)] hover:scale-[1.03];
+  background: var(--gradient-gold);
+}
+
+.btn-primary-custom {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-forest px-8 py-4 text-sm font-semibold tracking-wider uppercase text-cream transition-all duration-300 hover:bg-forest/90 hover:shadow-[0_0_20px_rgba(50,74,53,0.4)] hover:scale-[1.03];
+}
+
+.btn-secondary-custom {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-cream/30 bg-white/10 px-8 py-4 text-sm font-semibold tracking-wider uppercase text-cream backdrop-blur transition-all duration-300 hover:bg-white/20 hover:border-cream/60 hover:scale-[1.03];
+}
+
+.btn-dxn-red {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-red-800 px-8 py-4 text-sm font-semibold tracking-wider uppercase text-cream transition-all duration-300 hover:bg-red-700 hover:shadow-[0_0_20px_rgba(153,27,27,0.4)] hover:scale-[1.03];
+}
+
+/* Custom Utilities */
+@utility container-editorial {
+  @apply mx-auto w-full max-w-6xl px-6 md:px-10;
+}
+
+@utility eyebrow {
+  @apply text-xs uppercase tracking-[0.3em] text-[color:var(--gold)] font-bold;
+}
+
+@utility hairline {
+  @apply inline-block h-px w-16 bg-[color:var(--gold)] align-middle;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.80 0.12 85);
+}
+
+/* HIDE LOVABLE ADVERTISING BADGES AND INJECTIONS */
+.lovable-badge,
+#lovable-badge,
+iframe[src*="lovable.dev"],
+a[href*="lovable.dev"],
+div[class*="lovable"],
+span[class*="lovable"],
+[id*="lovable-badge"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
